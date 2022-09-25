@@ -12,7 +12,7 @@ import (
 
 type JWT interface {
 	GenerateAccessToken(subject string, expiry time.Duration) (accessToken string, err error)
-	ParseToken(accessToken string) (claims *jwt.RegisteredClaims, err error)
+	ParseAccessToken(accessToken string) (claims *jwt.RegisteredClaims, err error)
 }
 
 var jwtPrivateKey, jwtPublicKey []byte
@@ -68,7 +68,7 @@ func (ja *jwtAuth) GenerateAccessToken(subject string, expiry time.Duration) (ac
 	return
 }
 
-func (ja *jwtAuth) ParseToken(accessToken string) (claims *jwt.RegisteredClaims, err error) {
+func (ja *jwtAuth) ParseAccessToken(accessToken string) (claims *jwt.RegisteredClaims, err error) {
 	claims = new(jwt.RegisteredClaims)
 	_, err = jwt.ParseWithClaims(accessToken, claims, func(*jwt.Token) (interface{}, error) {
 		return jwt.ParseECPublicKeyFromPEM(jwtPublicKey)

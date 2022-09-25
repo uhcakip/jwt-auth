@@ -32,7 +32,7 @@ func main() {
 		log.Println(err)
 		return
 	}
-	if claims, err = jwtAuth.ParseToken(accessToken); err != nil {
+	if claims, err = jwtAuth.ParseAccessToken(accessToken); err != nil {
 		log.Println(err)
 		return
 	}
