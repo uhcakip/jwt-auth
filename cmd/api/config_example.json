@@ -1,9 +1,0 @@
-{
-  "app": {
-    "env": "local",
-    "jwtKeyPath": {
-      "private": "assets/jwt/private.key",
-      "public": "assets/jwt/public.key"
-    }
-  }
-}

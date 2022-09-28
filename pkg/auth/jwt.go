@@ -6,12 +6,11 @@ import (
 	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
-	"onboarding-jwt/pkg/helper"
 	"time"
 )
 
 type JWT interface {
-	GenerateAccessToken(subject string, expiry time.Duration) (accessToken string, err error)
+	GenerateAccessToken(subject string, expiresIn time.Duration) (accessToken string, err error)
 	ParseAccessToken(accessToken string) (claims *jwt.RegisteredClaims, err error)
 }
 
@@ -23,22 +22,12 @@ type jwtAuth struct {
 }
 
 func Setup() {
-	var (
-		err      error
-		rootPath string
-	)
+	var err error
 
-	if rootPath, err = helper.GetRootDirPath(); err != nil {
+	if jwtPrivateKey, err = ioutil.ReadFile(viper.GetString("filePath.jwtPrivateKey")); err != nil {
 		log.Fatalln(err)
 	}
-
-	privateKeyPath := rootPath + "/" + viper.GetString("app.jwtKeyPath.private")
-	publicKeyPath := rootPath + "/" + viper.GetString("app.jwtKeyPath.public")
-
-	if jwtPrivateKey, err = ioutil.ReadFile(privateKeyPath); err != nil {
-		log.Fatalln(err)
-	}
-	if jwtPublicKey, err = ioutil.ReadFile(publicKeyPath); err != nil {
+	if jwtPublicKey, err = ioutil.ReadFile(viper.GetString("filePath.jwtPublicKey")); err != nil {
 		log.Fatalln(err)
 	}
 
@@ -58,9 +47,9 @@ func NewJWT() (j JWT, err error) {
 	return ja, nil
 }
 
-func (ja *jwtAuth) GenerateAccessToken(subject string, expiry time.Duration) (accessToken string, err error) {
+func (ja *jwtAuth) GenerateAccessToken(subject string, expiresIn time.Duration) (accessToken string, err error) {
 	claims := jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiry)),
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiresIn)),
 		Subject:   subject,
 	}
 

@@ -1,0 +1,11 @@
+{
+  "app": {
+    "env": "local"
+  },
+  "filePath": {
+    "jwtPrivateKey": "assets/jwt/private.key",
+    "jwtPublicKey": "assets/jwt/public.key",
+    "sslCert": "assets/ssl/localhost.pem",
+    "sslKey": "assets/ssl/localhost-key.pem"
+  }
+}
