@@ -21,9 +21,8 @@ type jwtAuth struct {
 	publicKey  *ecdsa.PublicKey
 }
 
-func Setup() {
+func SetupJWT() {
 	var err error
-
 	if jwtPrivateKey, err = ioutil.ReadFile(viper.GetString("filePath.jwtPrivateKey")); err != nil {
 		log.Fatalln(err)
 	}
