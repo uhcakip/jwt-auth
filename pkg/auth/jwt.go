@@ -10,7 +10,7 @@ import (
 )
 
 type JWT interface {
-	GenerateAccessToken(subject string, expiresIn time.Duration) (accessToken string, err error)
+	GenerateAccessToken(subject string, expiry time.Time) (accessToken string, err error)
 	ParseAccessToken(accessToken string) (claims *jwt.RegisteredClaims, err error)
 }
 
@@ -46,13 +46,14 @@ func NewJWT() (j JWT, err error) {
 	return ja, nil
 }
 
-func (ja *jwtAuth) GenerateAccessToken(subject string, expiresIn time.Duration) (accessToken string, err error) {
+func (ja *jwtAuth) GenerateAccessToken(userID string, expiry time.Time) (accessToken string, err error) {
 	claims := jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiresIn)),
-		Subject:   subject,
+		ExpiresAt: jwt.NewNumericDate(expiry),
+		Subject:   userID,
 	}
 
-	accessToken, err = jwt.NewWithClaims(jwt.SigningMethodES256, claims).SignedString(ja.privateKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	accessToken, err = token.SignedString(ja.privateKey)
 	return
 }
 
