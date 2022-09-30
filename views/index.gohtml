@@ -1,0 +1,23 @@
+{{define "views/index.gohtml"}}
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jwt-auth</title>
+    </head>
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <body>
+    <button id="fb-login" class="login-btn login-btn-fb" type="button">Login with facebook</button>
+    </body>
+    <script>
+        document.getElementById("fb-login").addEventListener("click", function () {
+            window.location = "/oauth/facebook/login"
+        })
+    </script>
+    </html>
+
+{{end}}
