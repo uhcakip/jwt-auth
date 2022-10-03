@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"encoding/json"
+	"os"
 	"reflect"
 )
 
@@ -18,4 +20,8 @@ func GetStructFields(obj any, tag string) (fileds []string, err error) {
 	}
 
 	return
+}
+
+func PrintJson(obj any) {
+	_ = json.NewEncoder(os.Stdout).Encode(obj)
 }
